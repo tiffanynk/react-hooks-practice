@@ -1,33 +1,41 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import './App.css';
 
-class App extends Component {
+const App = () => {
+  /*useState is a function that takes in your initial state and 
+  returns an array back. these constants are destructured 
+  values from the return of useState, an array holding:
+  0 index is call count is the current state. 1 index is a 
+  function whose sole purpose is to change current  state */
+  const [count, setCount] = useState(0)
 
-  state = {
-    count: 0
-  };
+  const decrementCount = () => setCount(count - 1);
 
-  componentDidMount = () => {
-    setInterval(() => this.incrementCount(), 1000)
-  };
+  const incrementCount = () => setCount(count + 1);
 
-  decrementCount = () => {
-    this.setState({count: this.state.count - 1})
-  };
-
-  incrementCount = () => {
-    this.setState({count: this.state.count + 1})
-  };
-
-  render() {
     return (
       <div className="App">
-        <p>{this.state.count}</p>
-        <button onClick={this.decrementCount}>-</button>
-        <button onClick={this.incrementCount}>+</button>
+        <h1>Counter App</h1>
+        <p>{count}</p>
+        <button onClick={decrementCount}>-</button>
+        <button onClick={incrementCount}>+</button>
       </div>
     );
-  }
 }
 
 export default App;
+
+
+// if you have a larger app and need to keep track of several 
+// pieces of state, you can use a hybrid method of:
+// const [state, setState] = setState({
+//   user: {},
+//   count: 0,
+//   characters: []
+// })
+
+// now you would have to change the state for each piece by:
+// const increment = () => setCount({...state, count: state.count + 1})
+
+// but you should keep each piece of state seperate so you know
+// what each constant is doing
