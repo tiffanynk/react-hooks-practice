@@ -5,23 +5,18 @@ const App = () => {
 
   const [count, setCount] = useState(0);
 
-
-  const decrementCount = () => setCount(count - 1);
-
   const incrementCount = () => setCount(count + 1);
 
-  /*componentDidMount ex. takes in two arguments a function and 
-  dependencies. if there's nothing in the dependency list [], that is the useEffect will run one time only */
-
   useEffect(() => {
-    setInterval(incrementCount, 1000)
-  }, [])
+    let id = setInterval(incrementCount, 1000);
 
+    return () => clearInterval(id);
+  }, [count])
+/* every time count updates, return clearinterval.*/
   return (
     <div className="App">
       <h1>Counter App</h1>
       <p>{count}</p>
-      <button onClick={decrementCount}>-</button>
       <button onClick={incrementCount}>+</button>
     </div>
   );
@@ -53,4 +48,11 @@ what each constant is doing */
 /* useEffect - can do the same things as these lifecycle methods:
 component DidUpdate / DidUpdate / WillUnmount
 
+*/
+
+/* In order to make this re-render with useEffect, must add dependencies in order to trigger a re-render. componentDidUpdate
+
+Because of closure, whether or not you are incuding both the behavior and state inside of your function. Outer function encloses over the inner function, but the inner scope still holds on to information from the outer function after its been run
+
+Need to simulate a componentUnmount. 
 */
